@@ -1,5 +1,5 @@
 ////////////////////////////////////
-//    LIBRARY BY Micha³ Ha³daœ    //
+//    LIBRARY BY Michal Haldas    //
 ///////////////////////////////////
 #pragma once
 
@@ -12,7 +12,7 @@ private:
 	char* znaki;
 	unsigned dlugosc{};
 	
-	// KONSTRUKTOR KOPIUJ¥CY
+	// KONSTRUKTOR KOPIUJACY
 	Napis(unsigned size)
 	{
 		dlugosc = size;
@@ -49,7 +49,7 @@ public:
 
 	//////////////////////////////////////
 	//
-	//   OPERATORY = NADPISUJ¥CE TABLICE
+	//   OPERATORY = NADPISUJACE TABLICE
 	//
 	//////////////////////////////////////
 	Napis& operator = (const Napis& wzor)
@@ -76,7 +76,7 @@ public:
 
 	//////////////////////////////////////
 	//
-	//    OPERATORY + DODAJ¥CE TABLICE
+	//    OPERATORY + DODAJACE TABLICE
 	//
 	//////////////////////////////////////
 	Napis& operator + (const Napis& n2)const
@@ -98,7 +98,7 @@ public:
 
 	//////////////////////////////////////
 	//
-	//  OPERATORY += DOPISUJ¥CE DO TABLICY
+	//  OPERATORY += DOPISUJACE DO TABLICY
 	//
 	//////////////////////////////////////
 	Napis& operator += (const Napis& n2)
@@ -131,7 +131,7 @@ public:
 
 	//////////////////////////////////////
 	//
-	//        WYJŒCIE I WEJŒCIE
+	//    OPERATORY WYJSCIA I WEJSCIA
 	//
 	//////////////////////////////////////
 	friend std::ostream& operator << (std::ostream& out, const Napis& n)
@@ -150,7 +150,7 @@ public:
 			in.get(buff, 80);
 			n += buff;
 		}
-		in.get(); // wyci¹gamy ze strumienia '\n'
+		in.get(); // wyciÂ¹gamy ze strumienia '\n'
 
 		return in;
 	}
