@@ -259,7 +259,7 @@ public:
 
 	/////////////////////////////////////////
 	//
-	//		 OPERATORY PRZESUWAJACE
+	//	  OPERATORY PRZESUWAJACE
 	//
 	/////////////////////////////////////////		
 	Napis(Napis&& wzor) noexcept
