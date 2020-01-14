@@ -6,7 +6,6 @@
 ////////////////////////////////////
 	     TO DO:
 ------------------------------------
-1. Funkcja wstaw przed znakiem
 2. Operatory/funkcje typu >, <
 
 ////////////////////////////////////
@@ -120,12 +119,13 @@ public:
 	{
 		unsigned dlugosc = strlen(napis);
 		this->dlugosc += dlugosc;
-
-		char* nowy = new char[this->dlugosc];
-
-		/*
-			~~~DOKONCZYC~~~
-		*/
+		char* nowy = new char[this->dlugosc+1];
+		strncpy(nowy, this->napis, x);
+		nowy[x] = 0;
+		strcat(nowy, napis);
+		strcat(nowy, this->napis + x);
+		delete[] this->napis;
+		this->napis = nowy;
 	}
 
 	// Funkcja zamieniajaca konkretny znak napisu na maly
@@ -336,7 +336,7 @@ public:
 
 	/////////////////////////////////////////
 	//
-	//	 OPERATORY PRZESUWAJACE
+	//	  OPERATORY PRZESUWAJACE
 	//
 	/////////////////////////////////////////		
 	Napis(Napis&& wzor) noexcept
