@@ -3,18 +3,18 @@
 ////////////////////////////////////
 
 /*
-////////////////////////////////////
-	     TO DO:
-------------------------------------
-2. Operatory/funkcje typu >, <
-
-////////////////////////////////////
+---------------------------------------------------------
+		TO DO: 
+	1. SPECJALNY NAMESPACE DAL FUNKCJI STATYCZNYCH
+	2. FUNKCJE ZNAJDUJACE PODNAPIS W NAPISIE
+---------------------------------------------------------
 */
 #pragma once
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cmath>
+#include <sstream>
 
 class Napis
 {
@@ -35,6 +35,7 @@ public:
 	//       KONSTRUKTORY I DESTRUKTOR
 	//
 	/////////////////////////////////////////
+
 	//explicit 
 	Napis(const char* n = "")
 	{
@@ -61,6 +62,7 @@ public:
 	//	NIEOKRESLONE FUNKCJE KLASY
 	//
 	/////////////////////////////////////////
+
 	// Funkcja zwracajaca dlugosc napisu
 	unsigned Dlugosc()
 	{
@@ -127,12 +129,13 @@ public:
 		delete[] this->napis;
 		this->napis = nowy;
 	}
-	
+
 	// Funkcja wstawiajaca tekst przed wybranym znakiem napisu
 	void WstawPrzedZnakiem(const Napis& n, unsigned x = 0)
 	{
 		WstawPrzedZnakiem(n.napis, x);
 	}
+
 
 	// Funkcja zamieniajaca ze soba napisy (dziala na zasadzie swap)
 	void ZamienNapisy(Napis& n1)
@@ -142,6 +145,19 @@ public:
 		this->napis = n1.napis;
 		n1.napis = nowy;
 	}
+
+	// Statyczna funkcja zamieniajaca ze soba napisy (dziala na zasadzie swap)
+	static void ZamienNapisy(Napis& n1, Napis& n2)
+	{
+		char* nowy;
+		nowy = n1.napis;
+		n1.napis = n2.napis;
+		n2.napis = nowy;
+	}
+
+	/////////////////////////////////////////
+	/////////// WIELKOSC ZNAKOW /////////////
+	/////////////////////////////////////////
 
 	// Funkcja zamieniajaca konkretny znak napisu na maly
 	void ZamienNaMaleZnak(unsigned x = 0)
@@ -157,7 +173,7 @@ public:
 			napis[x] = napis[x] - 32;
 	}
 
-	// Funkcja zamieniajaca caly napis na duzy
+	// Funkcja zamieniajaca caly napis na maly
 	void ZamienNaMaleWszystko()
 	{
 		for (unsigned i = 0; i < dlugosc; i++)
@@ -167,7 +183,7 @@ public:
 		}
 	}
 
-	// Funkcja zamieniajaca caly napis na maly
+	// Funkcja zamieniajaca caly napis na duzy
 	void ZamienNaDuzeWszystko()
 	{
 		for (unsigned i = 0; i < dlugosc; i++)
@@ -179,33 +195,101 @@ public:
 
 	/////////////////////////////////////////
 	//
+	//	FUNKCJE KONWERTUJACE NAPIS
+	//
+	/////////////////////////////////////////
+
+	//Funkcja konwertujaca dowolny typ zmiennej na napis
+	template <typename T>
+	static Napis KonwertujNaNapis(T zmienna)
+	{
+		//Napis n1;
+		std::stringstream os;
+		os << zmienna;
+		Napis n1(os.str().c_str());
+		return n1;
+	}
+
+	// to uczucie kiedy funkcja atof() assci to float konwertuje na double xd
+
+	/////////////////////////////////////////
+	////////////// STATYCZNE ////////////////
+	/////////////////////////////////////////
+
+	// Statyczna funkcja konwertujaca wybrany napis na zmienna typu double
+	static double NapisNaDouble(const Napis& n1) { return atof(n1.napis); }
+	// Statyczna funkcja konwertujaca wybrany napis na zmienna typu float
+	static float NapisNaFloat(const Napis& n1) { return static_cast<float>(atof(n1.napis)); }
+	// Statyczna funkcja konwertujaca wybrany napis na zmienna typu int
+	static int NapisNaInt(const Napis& n1) { return atoi(n1.napis); }
+	// Statyczna funkcja konwertujaca wybrany napis na zmienna typu unsigned
+	static unsigned NapisNaUnsigned(const Napis& n1) { return static_cast<unsigned>(atoi(n1.napis)); }
+
+	/////////////////////////////////////////
+	///////////// OBIEKT KLASY //////////////
+	/////////////////////////////////////////
+
+	// Funkcja konwertujaca napis na zmienna typu double
+	double NapisNaDouble() { return atof(this->napis); }
+	// Funkcja konwertujaca napis na zmienna typu float
+	float NapisNaFloat() { return static_cast<float>(atof(this->napis)); }
+	// Funkcja konwertujaca napis na zmienna typu int
+	int NapisNaInt() { return atoi(this->napis); }
+	// Funkcja konwertujaca napis na zmienna typu unsigned
+	unsigned NapisNaUnsigned() { return static_cast<unsigned>(atoi(this->napis)); }
+
+	/*
+
+	/////////////////////////////////////////
+	//
+	//       FUNKCJE WYSZYKUJACE NAPISY
+	//
+	/////////////////////////////////////////
+
+		unsigned ZnajdzNapis() {}
+		unsigned ZnajdzZnak() {}
+		Napis& ZwrocPodnapis(unsigned x, unsigned y) {}  - zwraca napis z przedzialu
+		void UsunPodnapis(unsigned x, unsigned y) - wyszukuje podnapis i go usuwa
+
+	*/
+
+	/////////////////////////////////////////
+	//
 	//	OPERATORY ==, != i FUNKCJE
 	//	SPRAWDZAJACE ROWNOSC TABLIC 	
 	//
 	/////////////////////////////////////////
+
 	friend bool operator == (const Napis& n1, const Napis& n2)
 	{
-		if (!strcmp(n1.napis, n2.napis)) return true;
+		if (strcmp(n1.napis, n2.napis) == 0) return true;
 		else return false;
 	}
 
 	friend bool operator != (const Napis& n1, const Napis& n2)
 	{
-		if (strcmp(n1.napis, n2.napis)) return true;
+		if (strcmp(n1.napis, n2.napis) != 0) return true;
 		else return false;
 	}
 
 	// Funkcja sprawdzajaca czy napisy sa takie same
-	bool Porównaj(const Napis& n1)
+	bool SprawdzRownosc(const Napis& n1)
 	{
-		if (!strcmp(n1.napis, napis)) return true;
+		if (strcmp(n1.napis, napis) == 0) return true;
 		else return false;
 	}
 
 	// Funkcja sprawdzajaca czy napisy sa takie same
 	bool SprawdzRownosc(const char* napis)
 	{
-		if (!strcmp(this->napis, napis)) return true;
+		if (strcmp(this->napis, napis) == 0) return true;
+		else return false;
+	}
+
+	// Statyczna funkcja sprawdzajaca czy napisy sa takie same
+	static bool SprawdzRownosc(const Napis& n1, const Napis& n2)
+	{
+		if (strcmp(n1.napis, n2.napis) == 0) return true;
 		else return false;
 	}
 
@@ -215,30 +299,61 @@ public:
 	//	POROWNOJACE TABLICE	
 	//
 	/////////////////////////////////////////
+
 	friend bool operator > (const Napis& n1, const Napis& n2)
 	{
-		
+		if (strcmp(n1.napis, n2.napis) < 0) return true;
+		else return false;
 	}
 
 	friend bool operator >= (const Napis& n1, const Napis& n2)
 	{
-
+		if (strcmp(n1.napis, n2.napis) <= 0) return true;
+		else return false;
 	}
 
 	friend bool operator < (const Napis& n1, const Napis& n2)
 	{
-
+		if (strcmp(n1.napis, n2.napis) > 0) return true;
+		else return false;
 	}
 
 	friend bool operator <= (const Napis& n1, const Napis& n2)
 	{
-
+		if (strcmp(n1.napis, n2.napis) >= 0) return true;
+		else return false;
 	}
 
-	// Funkcja sprawdzajaca, ktory napis jest "wiekszy"
-	Napis& PorownajNapisy(const Napis& n1, const Napis& n2)
+	// Funkcja zwracajaca "wiekszy" napis
+	// (ex. "ala" > "ola")
+	Napis& ZwrocWiekszy(Napis& n1)
 	{
+		if (strcmp(this->napis, n1.napis) < 0) return *this;
+		else return n1;
+	}
 
+	// Funkcja zwracajaca "mniejszy" napis
+	// (ex. "ala" > "ola")
+	Napis& ZwrocMniejszy(Napis& n1)
+	{
+		if (strcmp(this->napis, n1.napis) > 0) return *this;
+		else return n1;
+	}
+
+	// Statyczna funkcja zwracajaca "wiekszy" napis
+	// (ex. "ala" > "ola")
+	static Napis& ZwrocWiekszy(Napis& n1, Napis& n2)
+	{
+		if (strcmp(n1.napis, n2.napis) < 0) return n1;
+		else return n2;
+	}
+
+	// Statyczna funkcja zwracajaca "mniejszy" napis
+	// (ex. "ala" > "ola")
+	static Napis& ZwrocMniejszy(Napis& n1, Napis& n2)
+	{
+		if (strcmp(n1.napis, n2.napis) > 0) return n1;
+		else return n2;
 	}
 
 	/////////////////////////////////////////
@@ -246,6 +361,7 @@ public:
 	//    OPERATORY = NADPISUJACE TABLICE
 	//
 	/////////////////////////////////////////
+
 	Napis& operator = (const Napis& wzor)
 	{
 		if (this != &wzor) // obj = obj;
@@ -273,6 +389,7 @@ public:
 	//     OPERATORY + DODAJACE TABLICE
 	//
 	/////////////////////////////////////////
+
 	Napis operator + (const Napis& n2)const
 	{
 		unsigned size = this->dlugosc + n2.dlugosc;
@@ -295,6 +412,7 @@ public:
 	//   OPERATORY += DOPISUJACE DO TABLICY
 	//
 	/////////////////////////////////////////
+
 	Napis& operator += (const Napis& n2)
 	{
 		// obj1 = obj1 + obj2
@@ -328,6 +446,7 @@ public:
 	//      OPERATORY WYJSCIA i WEJSCIA
 	//
 	/////////////////////////////////////////
+
 	friend std::ostream& operator << (std::ostream& out, const Napis& n)
 	{
 		return out << n.napis;
@@ -354,6 +473,7 @@ public:
 	//	  OPERATORY PRZESUWAJACE
 	//
 	/////////////////////////////////////////		
+
 	Napis(Napis&& wzor) noexcept
 	{
 		napis = wzor.napis;
@@ -377,6 +497,7 @@ public:
 	//   SIE DO DANEGO MIEJSCA W TABLICY
 	//
 	/////////////////////////////////////////
+
 	char& operator [] (unsigned x)
 	{
 		if (x < dlugosc - 1)
@@ -384,7 +505,8 @@ public:
 		else throw 1;
 	}
 
-	char& at(unsigned x)
+	// Funkcja zwracajaca znak z danego indexu napisu
+	char& Znak(unsigned x)
 	{
 		if (x < dlugosc - 1)
 			return napis[x];
