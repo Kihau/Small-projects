@@ -69,7 +69,7 @@ public:
 	}
 
 	// Funkcja zastepujaca wybrany znak podanym napisem
-	void WstawZaZnak(const char* napis, int x = 0)
+	void WstawZamiastZnaku(const char* napis, int x = 0)
 	{
 		unsigned size = strlen(napis);
 		dlugosc += size - 1;
@@ -83,9 +83,9 @@ public:
 	}
 
 	// Funkcja zastepujaca wybrany znak podanym napisem
-	void WstawZaZnak(const Napis& n, int x = 0)
+	void WstawZamiastZnaku(const Napis& n, int x = 0)
 	{
-		WstawZaZnak(n.napis, x);
+		WstawZamiastZnaku(n.napis, x);
 	}
 
 	// Funkcja zastepujaca wszytkie kolejne znaki podanym napisem
@@ -116,11 +116,56 @@ public:
 	}
 
 	// Funkcja wstawiajaca tekst przed wybranym znakiem napisu
-	void WstawPrzedZnakiem() {};
+	void WstawPrzedZnakiem(const char* napis, unsigned x = 0)
+	{
+		unsigned dlugosc = strlen(napis);
+		this->dlugosc += dlugosc;
+
+		char* nowy = new char[this->dlugosc];
+
+		/*
+			~~~DOKONCZYC~~~
+		*/
+	}
+
+	// Funkcja zamieniajaca konkretny znak napisu na maly
+	void ZamienNaMaleZnak(unsigned x = 0)
+	{
+		if (napis[x] > 64 &&  napis[x] < 93)
+			napis[x] = napis[x] + 32;
+	}
+
+	// Funkcja zamieniajaca konkretny znak napisu na duzy
+	void ZamienNaDuzeZnak(unsigned x = 0)
+	{
+		if (napis[x] > 96 && napis[x] < 123)
+			napis[x] = napis[x] - 32;
+	}
+
+	// Funkcja zamieniajaca caly napis na duzy
+	void ZamienNaMaleWszystko()
+	{
+		for (unsigned i = 0; i < dlugosc; i++)
+		{
+			if (napis[i] > 64 && napis[i] < 93)
+				napis[i] = napis[i] + 32;
+		}
+	}
+
+	// Funkcja zamieniajaca caly napis na maly
+	void ZamienNaDuzeWszystko()
+	{
+		for (unsigned i = 0; i < dlugosc; i++)
+		{
+			if (napis[i] > 96 && napis[i] < 123)
+				napis[i] = napis[i] - 32;
+		}
+	}
 
 	/////////////////////////////////////////
 	//
-	//   OPERATORY i FUNKCJE POROWNUJACE
+	//	OPERATORY ==, != i FUNKCJE
+	//	SPRAWDZAJACE ROWNOSC TABLIC 	
 	//
 	/////////////////////////////////////////
 	friend bool operator == (const Napis& n1, const Napis& n2)
@@ -143,10 +188,42 @@ public:
 	}
 
 	// Funkcja sprawdzajaca czy napisy sa takie same
-	bool Porównaj(const char* napis)
+	bool SprawdzRownosc(const char* napis)
 	{
 		if (!strcmp(this->napis, napis)) return true;
 		else return false;
+	}
+
+	/////////////////////////////////////////
+	//
+	//	OPERATORY >, >=, <, <= i FUNKCJE
+	//	POROWNOJACE TABLICE	
+	//
+	/////////////////////////////////////////
+	friend bool operator > (const Napis& n1, const Napis& n2)
+	{
+		
+	}
+
+	friend bool operator >= (const Napis& n1, const Napis& n2)
+	{
+
+	}
+
+	friend bool operator < (const Napis& n1, const Napis& n2)
+	{
+
+	}
+
+	friend bool operator <= (const Napis& n1, const Napis& n2)
+	{
+
+	}
+
+	// Funkcja sprawdzajaca, ktory napis jest "wiekszy"
+	Napis& PorownajNapisy(const Napis& n1, const Napis& n2)
+	{
+
 	}
 
 	/////////////////////////////////////////
@@ -259,7 +336,7 @@ public:
 
 	/////////////////////////////////////////
 	//
-	//	  OPERATORY PRZESUWAJACE
+	//	 OPERATORY PRZESUWAJACE
 	//
 	/////////////////////////////////////////		
 	Napis(Napis&& wzor) noexcept
