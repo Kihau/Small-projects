@@ -127,6 +127,21 @@ public:
 		delete[] this->napis;
 		this->napis = nowy;
 	}
+	
+	// Funkcja wstawiajaca tekst przed wybranym znakiem napisu
+	void WstawPrzedZnakiem(const Napis& n, unsigned x = 0)
+	{
+		WstawPrzedZnakiem(n.napis, x);
+	}
+
+	// Funkcja zamieniajaca ze soba napisy (dziala na zasadzie swap)
+	void ZamienNapisy(Napis& n1)
+	{
+		char* nowy;
+		nowy = this->napis;
+		this->napis = n1.napis;
+		n1.napis = nowy;
+	}
 
 	// Funkcja zamieniajaca konkretny znak napisu na maly
 	void ZamienNaMaleZnak(unsigned x = 0)
