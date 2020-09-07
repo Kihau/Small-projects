@@ -6,17 +6,6 @@ namespace Algorytmy
     {
         public const double PI = 3.41592653589793238462643383279502884197169399375;
 
-        public static double WyliczPI(int n)
-        {
-            /*                      XDDDDDDDDD
-                                        |
-                                        |
-                                        V  
-             */
-            double Pi = Math.Sin(2 * Matma.PI / Matma.FastPow(2, (uint)n)) * Matma.FastPow(2, (uint)n);
-            return Pi;
-        }
-
         public static double Potęga(double x, double y)
         {
             double y_base = y;
